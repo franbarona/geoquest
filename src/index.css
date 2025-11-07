@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Trench';
+  src: url('/fonts/TrenchThin-16R0.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Cocomat';
+  src: url('/fonts/cocomat.light.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'TTOctosquares';
+  src: url('/fonts/TTOctosquares-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@layer utilities {
+  .text-neon {
+    color: transparent;
+    text-shadow: 
+      0 5px 5px #00d9ff50;
+    filter: drop-shadow(0 0 50px white);
+  }
+}
+
+.text-stroke-white {
+  -webkit-text-stroke: 2px white
+}
+
+.text-stroke {
+  -webkit-text-stroke: 2px #00d9ff
+}
+
+:root {
+  /* font-family: system-ui, Avenir, Helvetica, Arial, sans-serif; */
+    font-family: 'TTOctosquares', sans-serif;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.TrenchFont-font
+
+
+body {
+  margin: 0;
+}
+
+
+/* button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+} */
