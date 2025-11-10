@@ -10,4 +10,4 @@ export const ZOOM_LIMITS = {
   MAX: 4
 };
 
-export const FAST_GAME_TIME = 120; // 2 minutes
+export const QUICK_GAME_TIME = 120; // 2 minutes

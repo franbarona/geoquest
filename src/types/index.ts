@@ -5,4 +5,4 @@ export interface Country {
   id: string;
 }
 
-export type GameMode = 'learning' | 'fast';
+export type GameMode = 'normal' | 'learning';

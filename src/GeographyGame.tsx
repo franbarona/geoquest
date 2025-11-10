@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-// import Globe from "react-globe.gl";
 import MenuButton from "./components/MenuButtonComponent";
 import Modal from "./components/ModalComponent";
-import type { GameMode } from "./types";
-import { COLORS, FAST_GAME_TIME } from "./constants";
+import type { Country, GameMode } from "./types";
+import { COLORS, QUICK_GAME_TIME } from "./constants";
 import { useCountriesData } from "./hooks/useCountriesData";
 import StartScreen from "./components/StartScreenComponent";
 import GlobeComponent from "./components/GlobeComponent";
@@ -11,20 +10,14 @@ import ScoreDisplay from "./components/ScoreDisplayComponent";
 import Timer from "./components/TimerComponent";
 import TargetCountryDisplay from "./components/TargetCountryDisplayComponent";
 import GameOverModal from "./components/GameOverModalComponent";
-
-interface Country {
-  name: string;
-  lat: number;
-  lng: number;
-  id: string;
-}
+import NextCountryButton from "./components/NextCountryButton";
 
 export default function GeographyGame() {
   const [gameStarted, setGameStarted] = useState(false);
   const [gameMode, setGameMode] = useState<GameMode>("learning");
   const [showModal, setShowModal] = useState(false);
   const [showGameOver, setShowGameOver] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(FAST_GAME_TIME);
+  const [timeLeft, setTimeLeft] = useState(QUICK_GAME_TIME);
   const [targetCountry, setTargetCountry] = useState<Country | null>(null);
   const [usedCountries, setUsedCountries] = useState<Set<string>>(new Set());
   const [countryColors, setCountryColors] = useState<Map<string, string>>(
@@ -32,13 +25,13 @@ export default function GeographyGame() {
   );
   const [score, setScore] = useState(0);
   const [attempts, setAttempts] = useState(0);
-  const globeRef = useRef<any>();
+  const globeRef = useRef<any>(null);
 
   const { countries, polygonsData, loading } = useCountriesData();
 
-  // Timer effect for fast mode
+  // Timer effect for normal mode
   useEffect(() => {
-    if (gameMode === "fast" && gameStarted && !showGameOver && timeLeft > 0) {
+    if (gameMode === "normal" && gameStarted && !showGameOver && timeLeft > 0) {
       const timer = setInterval(() => {
         setTimeLeft((prev) => {
           if (prev <= 1) {
@@ -103,7 +96,7 @@ export default function GeographyGame() {
         setUsedCountries((prev) => new Set(prev).add(clickedId));
         setScore((prev) => prev + 1);
 
-        setTimeout(() => selectRandomCountry(), 1500);
+        setTimeout(() => selectRandomCountry(), 500);
       } else {
         setCountryColors((prev) =>
           new Map(prev).set(clickedId, COLORS.INCORRECT)
@@ -113,13 +106,27 @@ export default function GeographyGame() {
     [targetCountry, selectRandomCountry]
   );
 
+  const handleNextCountryClick = useCallback(() => {
+    setCountryColors((prev) => {
+      const newColors = new Map(prev);
+      for (const [key, value] of newColors.entries()) {
+        if (value === COLORS.INCORRECT) {
+          newColors.delete(key);
+        }
+      }
+      return newColors;
+    });
+    setTimeout(() => selectRandomCountry(), 0);
+  }, [selectRandomCountry]);
+
   const resetGame = useCallback(() => {
     setScore(0);
     setAttempts(0);
     setUsedCountries(new Set());
     setCountryColors(new Map());
-    setTimeLeft(FAST_GAME_TIME);
+    setTimeLeft(QUICK_GAME_TIME);
     setShowGameOver(false);
+    setShowModal(false);
     selectRandomCountry();
   }, [selectRandomCountry]);
 
@@ -127,7 +134,7 @@ export default function GeographyGame() {
     (mode: GameMode) => {
       setGameMode(mode);
       setGameStarted(true);
-      setTimeLeft(FAST_GAME_TIME);
+      setTimeLeft(QUICK_GAME_TIME);
       setShowGameOver(false);
       resetGame();
     },
@@ -144,7 +151,7 @@ export default function GeographyGame() {
     setUsedCountries(new Set());
     setCountryColors(new Map());
     setTargetCountry(null);
-    setTimeLeft(FAST_GAME_TIME);
+    setTimeLeft(QUICK_GAME_TIME);
   }, []);
 
   useEffect(() => {
@@ -159,47 +166,17 @@ export default function GeographyGame() {
 
   if (loading) {
     return (
-      <div
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100vw",
-          height: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "#0f172a",
-          color: "white",
-          fontSize: "24px",
-        }}
-      >
-        Cargando mapa...
+      <div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-[#0f172a] text-white text-2xl">
+        loading ...
       </div>
     );
   }
 
   return (
     <>
-      <style>{`
-        body, html, #root {
-          margin: 0;
-          padding: 0;
-          overflow: hidden;
-          width: 100vw;
-          height: 100vh;
-        }
-      `}</style>
-
       <div
+        className="fixed top-0 left-0 w-screen h-screen overflow-hidden z-1000 "
         style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100vw",
-          height: "100vh",
-          overflow: "hidden",
-          zIndex: 1000,
           backgroundImage: "url(particles-bg-img.jpg)",
           backgroundSize: "cover",
           backgroundPosition: "center",
@@ -215,18 +192,23 @@ export default function GeographyGame() {
         />
       </div>
 
-      {gameMode === "fast" && <Timer timeLeft={timeLeft} />}
+      {gameMode === "normal" && <Timer timeLeft={timeLeft} />}
       {targetCountry && (
         <TargetCountryDisplay countryName={targetCountry.name} />
       )}
       <ScoreDisplay score={score} attempts={attempts} />
       <MenuButton onClick={() => setShowModal(true)} />
+      <NextCountryButton
+        onNext={() => handleNextCountryClick()}
+        disabled={false}
+      />
 
       {showModal && (
         <Modal
           onClose={() => setShowModal(false)}
           onExit={handleExitGame}
           onReset={resetGame}
+          gameMode={gameMode}
         />
       )}
 

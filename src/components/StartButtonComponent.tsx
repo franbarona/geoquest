@@ -22,7 +22,7 @@ const StartButton = ({
         <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-cyan-500/10 via-cyan-400/20 to-cyan-500/10 opacity-0  transition-opacity duration-500"></div>
 
         <div className="relative z-10 flex items-center gap-4 justify-center">
-          <p className="uppercase text-cyan-50 font-bold text-2xl group-hover:text-white transition-colors duration-300 drop-shadow-sm">
+          <p className="uppercase text-cyan-50 font-bold text-xl lg:text-2xl group-hover:text-white transition-colors duration-300 drop-shadow-sm">
             {children}
           </p>
         </div>

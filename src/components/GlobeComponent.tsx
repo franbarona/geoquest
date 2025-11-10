@@ -35,14 +35,11 @@ const GlobeComponent = ({ globeRef, polygonsData, countryColors, onCountryClick,
   }, [showTooltip]);
 
   return (
-
     <Globe
       ref={globeRef}
       width={window.innerWidth}
       height={window.innerHeight}
       globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
-      // globeImageUrl="//unpkg.com/three-globe@2.44.1/example/img/earth-day.jpg"
-      // globeImageUrl="/watermarked-fbd90b3a-d419-4f50-8736-1910076f4ce6.png"
       backgroundColor="rgba(0,0,0,0)"
       polygonsData={polygonsData}
       polygonCapColor={getPolygonColor}

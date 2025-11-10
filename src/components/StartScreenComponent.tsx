@@ -19,17 +19,17 @@ const StartScreen = ({ onStart }: StartScreenProps) => {
       </video>
 
       <div className="absolute z-10 top-0 left-0 w-screen h-screen flex flex-col justify-start items-center gap-8 text-white text-center">
-        <div className="flex-col gap-0 text-[6.5em] sm:text-[8em] md:text-[10em] lg:text-[12em] flex lg:flex-row bg-linear-to-r from-transparent via-neutral-300 to-transparent text-transparent bg-clip-text transition-all duration-500 ease-in-out">
+        <div className="flex-col gap-0 text-[6.5em] sm:text-[8em] lg:text-[12em] flex md:flex-row bg-linear-to-r from-transparent via-neutral-300 to-transparent text-transparent bg-clip-text transition-all duration-500 ease-in-out">
           <span className="">GEO</span>
-          <span className="-mt-[0.6em] lg:mt-0 transition-all duration-500 ease-in-out">
+          <span className="-mt-[0.6em] md:mt-0 transition-all duration-500 ease-in-out">
             QUEST
           </span>
         </div>
         <p className="text-3xl lg:text-4xl -mt-10 opacity-90 font-[Trench]">
-          A mini game to find the country
+          Prove that you’re the true master of the map!
         </p>
         <div className="flex flex-col gap-4">
-          <StartButton onClick={() => onStart("fast")} border="rounded-full">Quick Game</StartButton>
+          <StartButton onClick={() => onStart("normal")} border="rounded-full">Quick Game</StartButton>
           <StartButton onClick={() => onStart("learning")} border="rounded-full">
             Learning Mode
           </StartButton>
@@ -42,7 +42,7 @@ const StartScreen = ({ onStart }: StartScreenProps) => {
       </div>
 
       <div className="absolute bottom-2 left-[50%] translate-x-[-50%] text-white opacity-70">
-        Click on the correct countries to win points
+        Click on the correct countries to win pointers
       </div>
     </div>
   );
